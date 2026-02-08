@@ -4,7 +4,7 @@
 ![run](./run.gif)
 
 ```bash
-#   Запускаем все сразу или можем по отдельности
+#   Запускаем все сразу или можем по отдельности по командам ниже
     # склонировать проект 
     git clone git@github.com:adminfromKRSK24/analitic_gdp_test.git
     # Перейти в директорию
@@ -54,4 +54,14 @@ pip install -r requirements.txt
 #### 6. Запускаем основной скрипт (пример)
 ```bash
 python3 main.py --files economic1.csv economic2.csv --report "average-gdp"
+```
+
+#### 7. Запуск тестов (пример)
+```bash
+python3 -m pytest test_parser.py -v
+```
+
+#### 8. Посмотреть покрытие (пример)
+```bash
+python3 -m pytest --cov . --cov-report=term-missing
 ```
