@@ -1,6 +1,8 @@
 # analitic_gdp_test
 
 ```bash
+    # склонировать проект 
+    git clone git@github.com:adminfromKRSK24/analitic_gdp_test.git
     # Перед первым запуском
     
     # Перейти в проект, создать и активировать окружение
