@@ -3,14 +3,14 @@
 ```bash
     # склонировать проект 
     git clone git@github.com:adminfromKRSK24/analitic_gdp_test.git
-    # Перед первым запуском
-    
+    # Перейти в директорию
+    cd analitic_gdp_test
     # Перейти в проект, создать и активировать окружение
     python3 -m venv venv
     source venv/bin/activate
     
 #    Установить зависимости
-    pip install < requirements.txt
+    pip install -r requirements.txt
     # Запуск скрипта
     python3 main.py --files economic1.csv economic2.csv --report "average-gdp"
     
