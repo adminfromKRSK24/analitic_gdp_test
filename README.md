@@ -1,5 +1,8 @@
 # analitic_gdp_test
 
+
+![run](./run.gif)
+
 ```bash
     # склонировать проект 
     git clone git@github.com:adminfromKRSK24/analitic_gdp_test.git
