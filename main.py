@@ -3,7 +3,7 @@ import csv
 from abc import ABC, abstractmethod
 from typing import Any
 from tabulate import tabulate
-from error import InvalidFileError, InvalidReportError
+from error import InvalidFileError, InvalidReportError, InvalidFileErrorZero, InvalidCountNameReportError
 
 
 class BaseFile(ABC):
@@ -24,6 +24,9 @@ class Parser():
         return self._all_files
 
     def get_name(self):
+        return self._name_report[0]
+
+    def check_name(self):
         return self._name_report
 
     @staticmethod
@@ -31,11 +34,12 @@ class Parser():
 
         parser = argparse.ArgumentParser()
 
-        parser.add_argument('--files', dest='files', required=True, nargs='+')
-        parser.add_argument('--report', dest='name_report', required=True, nargs=1)
+        parser.add_argument('--files', dest='files', nargs='*', default=[])
+        parser.add_argument('--report', dest='name_report', nargs='*', default=[])
+
         args = parser.parse_args()
 
-        return args.files, args.name_report[0]
+        return args.files, args.name_report
 
 class Report(ABC):
     def __init__(self, files, name_report):
@@ -117,12 +121,22 @@ class Conroller():
     def __init__(self):
         self._parser_terminal: Parser = Parser()
 
+
     def select_report(self):
         try:
             report = REPORT_CLASSES.get(self._parser_terminal.get_name())
 
             if report is None:
                 raise InvalidReportError()
+
+            if not self._parser_terminal.get_files():
+                raise InvalidFileErrorZero()
+
+            if len(self._parser_terminal.check_name()) > 1:
+                raise InvalidCountNameReportError()
+
+            if not self._parser_terminal.get_name():
+                raise IndexError()
 
             for file in self._parser_terminal.get_files():
                 if str(file[-4:]) != '.csv':
@@ -132,6 +146,16 @@ class Conroller():
             cur_report.parser_csv()
             cur_report.calc()
             cur_report.print_report()
+
+        except InvalidFileErrorZero:
+            print("Нужно указать хотя бы 1 файл в формате CSV")
+
+        except IndexError:
+            print("Не указан отчёт")
+
+        except InvalidCountNameReportError:
+            print("Много аргументов для названия отчета")
+
         except InvalidFileError:
             print("Расширение файла не CSV")
         except InvalidReportError:
@@ -139,7 +163,7 @@ class Conroller():
 
             for k in REPORT_CLASSES.keys():
                 print(f" - {k}\n")
-        except Exception as e:
+        except Exception:
             print("Ошибка")
 
 
